@@ -1,12 +1,13 @@
 import React,{useState,useContext} from 'react'
-import Context from './context'
+import Context from '../context'
 const Info = () => {
     let collection=useContext(Context);
-    // const save=()=>{
-    //     let newdata={title:value}
-    //     collection.setdata(collection.data.concat(newdata))
-    // }
-    const adddata=collection.save;
+    const save=async ()=>{
+        await addnote({"Name":value,"phoneNo":8126})
+        collection.getNotes()
+        setvalue("")
+    }
+    const addnote=collection.addNotes;
     const [value,setvalue]=useState("");
     const change=(event)=>{
         setvalue(event.target.value)
@@ -22,7 +23,7 @@ const Info = () => {
                 <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
                 <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
-        <button className="btn btn-primary" onClick={()=>{return adddata(value,"nsfamkav")}} >add note</button>
+        <button className="btn btn-primary" onClick={save} >add note</button>
         </div>
     )
 }

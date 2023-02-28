@@ -1,14 +1,9 @@
-// import { useState } from "react";
-import { body } from "express-validator";
-import { useState } from "react";
+// import { body } from "express-validator";
+import React ,{ useState } from "react";
 import Context from "./context";
 
 const Used = (props) => {
-    
-    const save=async (settitle,setdiscription)=>{
-        let newdata={title:settitle}
-        setdata(data.concat(newdata))
-    }
+
     const Delete=(id)=>{
         console.log(data[id])
         let len=data.length
@@ -27,13 +22,12 @@ const Used = (props) => {
             'Content-Type': 'application/json',
             "auth":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWVyeSI6eyJpZCI6IjYzZDBjOTAyZTVjZDA0ZmRhYmJhNDk4MSJ9LCJpYXQiOjE2NzQ2Mjc5OTF9.0t7YHjEmupjMOdbhCCd_4OLydBwG6kPSK1edzqV4Dt0"
           },
-        //   body: JSON.stringify(data) // body data type must match "Content-Type" header
         });
-        const collect=await response.json()
-        console.log(collect); // parses JSON response into native JavaScript objects
+        let collect=await response.json()
+        console.log(collect)
+        await setdata(collect);
       }
-    // getNotes();
-    async function addNotes(url = 'http://localhost:8000/note/addnote' , data = {"Name":"newdata","PhoneNO":9368}) {
+    async function addNotes( data,url = 'http://localhost:8000/note/addnote') {
         const response = await fetch(url, {
           method: 'POST',
           headers: {
@@ -42,28 +36,38 @@ const Used = (props) => {
           },
         body: JSON.stringify(data) 
         });
-        console.log(data);
-        // const collect=await response.json()
-        console.log("Data saved successfully"); // parses JSON response into native JavaScript objects
       }
-    // addNotes();
-    
-
-    
+    async function deleteNotes( data,url = 'http://localhost:8000/note/deletenote') {
+        const response = await fetch(url, {
+          method: 'delete',
+          headers: {
+            'Content-Type': 'application/json',
+            "auth":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWVyeSI6eyJpZCI6IjYzZDBjOTAyZTVjZDA0ZmRhYmJhNDk4MSJ9LCJpYXQiOjE2NzQ2Mjc5OTF9.0t7YHjEmupjMOdbhCCd_4OLydBwG6kPSK1edzqV4Dt0"
+          },
+        body: JSON.stringify(data) 
+      });
+      getNotes()
+      }
+    async function updataNotes( data,id) {
+        const url = `http://localhost:8000/note/update${id}`
+        const response = await fetch(url, {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json',
+            "auth":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWVyeSI6eyJpZCI6IjYzZDBjOTAyZTVjZDA0ZmRhYmJhNDk4MSJ9LCJpYXQiOjE2NzQ2Mjc5OTF9.0t7YHjEmupjMOdbhCCd_4OLydBwG6kPSK1edzqV4Dt0"
+          },
+        body: JSON.stringify(data)
+        });
+        // console.log("saa")
+        getNotes()
+      }
     let fdata = [{
-        title: "hello my name is sahil",id:"0", }, { title: "what is your name " }, { title: "what hanjanjgngnakg",id:"1", }, { title: "anjnjvnajnbvjbndaknjvan" ,id:"2"}, { title: "what is your name ",id:"3" }, { title: "what is your name ",id:"4" }]
-
-
+        title: "hello my name is sahil",id:"0", }]
 
     const [data, setdata] = useState(fdata)
-    // const delete
-    const fun = () => {
-        setTimeout(() => {
-            // setstate({ name: "sapan", surname: "Gupta" })
-        }, 2000);
-    }
+    
     return (
-        <Context.Provider value={{ fun, data,save,Delete}}>
+        <Context.Provider value={{ data,Delete,setdata,addNotes,getNotes,deleteNotes,updataNotes}}>
             {props.children}
         </Context.Provider>
     )
